@@ -4,7 +4,7 @@
   "description": "React Native plugin for the CodePush service",
   "main": "CodePush.js",
   "typings": "typings/react-native-code-push.d.ts",
-  "homepage": "https://microsoft.github.io/code-push",
+  "homepage": "https://github.com/codemagic-ci-cd/react-native-code-push",
   "keywords": [
     "react-native",
     "code",
@@ -38,7 +38,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/CodePushNext/react-native-code-push"
+    "url": "https://github.com/codemagic-ci-cd/react-native-code-push"
   },
   "dependencies": {
     "code-push": "4.2.3",

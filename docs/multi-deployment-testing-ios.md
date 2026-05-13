@@ -3,8 +3,8 @@
 > NOTE
 >
 > Complete demos configured with "multi-deployment testing" feature are [here]:
-> *  **without using cocoa pods**: [link](https://github.com/microsoft/react-native-code-push/files/1259957/rncp976.copy.zip)
-> *  **using cocoa pods**: [link](https://github.com/microsoft/react-native-code-push/files/1172217/rncp893.copy.zip)
+> *  **without using cocoa pods**: [link](https://github.com/codemagic-ci-cd/react-native-code-push/files/1259957/rncp976.copy.zip)
+> *  **using cocoa pods**: [link](https://github.com/codemagic-ci-cd/react-native-code-push/files/1172217/rncp893.copy.zip)
 
 Xcode allows you to define custom build settings for each "configuration" (like debug, release), which can then be referenced as the value of keys within the `Info.plist` file (like the `CodePushDeploymentKey` setting). This mechanism allows you to easily configure your builds to produce binaries, which are configured to synchronize with different CodePush deployments.
 
@@ -44,7 +44,7 @@ To set this up, perform the following steps:
 
     ![Setting Keys](https://cloud.githubusercontent.com/assets/8598682/16821919/fc1eac4a-490d-11e6-9b11-128129c24b80.png)
 
-    *NOTE: As a reminder, you can retrieve these keys by running `appcenter codepush deployment list -a <ownerName>/<appName> -k` from your terminal.*
+    *NOTE: As a reminder, you can retrieve these keys using your CodePush CLI.*
 
 9. Open your project's `Info.plist` file and change the value of your `CodePushDeploymentKey` entry to `$(CODEPUSH_KEY)`
 
@@ -54,6 +54,6 @@ And that's it! Now when you run or build your app, your staging builds will auto
 
 *NOTE: CocoaPods users may need to run `pod install` before building with their new release configuration.*
 
-*Note: If you encounter the error message `ld: library not found for ...`, please consult [this issue](https://github.com/microsoft/react-native-code-push/issues/426) for a possible solution.*
+*Note: If you encounter the error message `ld: library not found for ...`, please consult [this issue](https://github.com/codemagic-ci-cd/react-native-code-push/issues/426) for a possible solution.*
 
 Additionally, if you want to give them seperate names and/or icons, you can modify the `Product Bundle Identifier`, `Product Name` and `Asset Catalog App Icon Set Name` build settings, which will allow your staging builds to be distinguishable from release builds when installed on the same device.
