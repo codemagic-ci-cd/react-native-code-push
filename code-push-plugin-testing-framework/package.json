@@ -8,13 +8,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/microsoft/code-push.git"
+    "url": "git+https://github.com/codemagic-ci-cd/react-native-code-push.git"
   },
   "author": {
-    "name": "Microsoft Corporation"
+    "name": "Codemagic"
   },
   "license": "MIT",
-  "homepage": "https://microsoft.github.io/code-push",
+  "homepage": "https://github.com/codemagic-ci-cd/react-native-code-push",
   "dependencies": {
     "@types/uuid": "^8.3.1",
     "base-64": "^1.0.0",
@@ -27,7 +27,7 @@
     "uuid": "^8.3.2"
   },
   "bugs": {
-    "url": "https://github.com/microsoft/code-push/issues"
+    "url": "https://github.com/codemagic-ci-cd/react-native-code-push/issues"
   },
   "readme": "ERROR: No README data found!",
   "_id": "code-push-plugin-testing-framework@0.0.1",

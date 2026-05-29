@@ -74,7 +74,7 @@ In order to integrate CodePush into your Android project, please perform the fol
 
 3. Add the Deployment key to `strings.xml`:
 
-   To let the CodePush runtime know which deployment it should query for updates, open your app's `strings.xml` file and add a new string named `CodePushDeploymentKey`, whose value is the key of the deployment you want to configure this app against (like the key for the `Staging` deployment for the `FooBar` app). You can retrieve this value by running `appcenter codepush deployment list -a <ownerName>/<appName> -k` in the CodePush CLI (the `-k` flag is necessary since keys aren't displayed by default) and copying the value of the `Key` column which corresponds to the deployment you want to use (see below). Note that using the deployment's name (like Staging) will not work. The "friendly name" is intended only for authenticated management usage from the CLI, and not for public consumption within your app.
+   To let the CodePush runtime know which deployment it should query for updates, open your app's `strings.xml` file and add a new string named `CodePushDeploymentKey`, whose value is the key of the deployment you want to configure this app against (like the key for the `Staging` deployment for the `FooBar` app). You can retrieve this value using your CodePush CLI (deployment keys aren't displayed by default) and copying the value of the `Key` column which corresponds to the deployment you want to use (see below). Note that using the deployment's name (like Staging) will not work. The "friendly name" is intended only for authenticated management usage from the CLI, and not for public consumption within your app.
 
    ![Deployment list](https://cloud.githubusercontent.com/assets/116461/11601733/13011d5e-9a8a-11e5-9ce2-b100498ffb34.png)
 
@@ -98,7 +98,7 @@ In order to effectively make use of the `Staging` and `Production` deployments t
 
 ### Code Signing setup
 
-Starting with CLI version **2.1.0** you can self sign bundles during release and verify its signature before installation of update. For more info about Code Signing please refer to [relevant code-push documentation section](https://github.com/microsoft/code-push/tree/v3.0.1/cli#code-signing). In order to use Public Key for Code Signing you need to do following steps:
+Starting with CLI version **2.1.0** you can self sign bundles during release and verify its signature before installation of update. For more info about Code Signing please refer to the relevant code-push documentation. In order to use Public Key for Code Signing you need to do following steps:
 
    Add `CodePushPublicKey` string item to `/path_to_your_app/android/app/src/main/res/values/strings.xml`. It may looks like this:
 
@@ -118,6 +118,6 @@ zwIDAQAB
  ```
 
 ### Expo Integration 
-1. A pure expo react-native is not supported yet. We are planning to look into this after a while. See https://github.com/CodePushNext/react-native-code-push/issues/5
+1. A pure expo react-native is not supported yet. We are planning to look into this after a while. See https://github.com/codemagic-ci-cd/react-native-code-push/issues/5
 2. A bare react-native app with expo sdk is supported, but you have to initialize rn app without `ReactNativeHostWrapper` of expo. It seems `ReactNativeHostWrapper` overrides `getJsBundleFile` internally, which prevents `CodePush` from being configured correctly.     
    https://github.com/expo/expo/issues/25865

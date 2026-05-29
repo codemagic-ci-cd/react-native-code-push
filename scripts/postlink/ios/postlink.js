@@ -16,7 +16,7 @@ module.exports = () => {
     if (!appDelegatePath) {
         return Promise.reject(`Couldn't find AppDelegate. You might need to update it manually \
     Please refer to plugin configuration section for iOS at \
-    https://github.com/microsoft/react-native-code-push#plugin-configuration-ios`);
+    https://github.com/codemagic-ci-cd/react-native-code-push#plugin-configuration-ios`);
     }
 
     var appDelegateContents = fs.readFileSync(appDelegatePath, "utf8");
@@ -84,7 +84,7 @@ module.exports = () => {
     if (!plistPath) {
         return Promise.reject(`Couldn't find .plist file. You might need to update it manually \
     Please refer to plugin configuration section for iOS at \
-    https://github.com/microsoft/react-native-code-push#plugin-configuration-ios`);
+    https://github.com/codemagic-ci-cd/react-native-code-push#plugin-configuration-ios`);
     }
 
     var plistContents = fs.readFileSync(plistPath, "utf8");

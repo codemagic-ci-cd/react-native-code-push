@@ -1,6 +1,6 @@
 # React Native Module for CodePush
 
-This plugin provides client-side integration for the [CodePush service](https://microsoft.github.io/code-push/), allowing you to easily add a dynamic update experience to your React Native app(s).
+This plugin provides client-side integration for the [CodePush service](https://github.com/codemagic-ci-cd/react-native-code-push), allowing you to easily add a dynamic update experience to your React Native app(s).
 
 <!-- React Native Catalog -->
 
@@ -35,7 +35,7 @@ A React Native app is composed of JavaScript files and any accompanying [images]
 
 The CodePush plugin helps get product improvements in front of your end users instantly, by keeping your JavaScript and images synchronized with updates you release to the CodePush server. This way, your app gets the benefits of an offline mobile experience, as well as the "web-like" agility of side-loading updates as soon as they are available. It's a win-win!
 
-In order to ensure that your end users always have a functioning version of your app, the CodePush plugin maintains a copy of the previous update, so that in the event that you accidentally push an update which includes a crash, it can automatically roll back. This way, you can rest assured that your newfound release agility won't result in users becoming blocked before you have a chance to [roll back](https://docs.microsoft.com/en-us/appcenter/distribution/codepush/cli#rolling-back-updates) on the server. It's a win-win-win!
+In order to ensure that your end users always have a functioning version of your app, the CodePush plugin maintains a copy of the previous update, so that in the event that you accidentally push an update which includes a crash, it can automatically roll back. This way, you can rest assured that your newfound release agility won't result in users becoming blocked before you have a chance to roll back on the server. It's a win-win-win!
 
 _Note: Any product changes which touch native code (e.g. modifying your `AppDelegate.m`/`MainActivity.java` file, adding a new plugin) cannot be distributed via CodePush, and therefore, must be updated via the appropriate store(s)._
 
@@ -43,13 +43,12 @@ _Note: Any product changes which touch native code (e.g. modifying your `AppDele
 
 - iOS (7+)
 - Android (4.1+) on TLS 1.2 compatible devices
-- Windows (UWP) - Not Tested. We recommend to use [microsoft/code-push-react-native](https://github.com/microsoft/react-native-code-push)
+- Windows (UWP) - Not actively tested
 
 We try our best to maintain backwards compatibility of our plugin with previous versions of React Native, but due to the nature of the platform, and the existence of breaking changes between releases, it is possible that you need to use a specific version of the CodePush plugin in order to support the exact version of React Native you are using. The following table outlines which CodePush plugin versions officially support the respective React Native versions:
 
 | React Native version(s)  | Supporting CodePush version(s)                                                                       |
 | ------------------------ | ---------------------------------------------------------------------------------------------------- |
-| <v0.76                   | **Consider [microsoft/code-push-react-native](https://github.com/microsoft/react-native-code-push)** |
 | v0.76, v0.77, 0.78, 0.79 | v10.0+ _(Available for Old/New Architecture)_                                                        |
 | v0.80                    | v10.1+ _(Available for Old/New Architecture)_                                                        |
 | v0.81                    | v10.3+ _(Available for Old/New Architecture)_                                                        |
@@ -85,7 +84,7 @@ _Note: CodePush only works with Video components when using `require` in the sou
 
 ## Getting Started
 
-Once you've followed the general-purpose ["getting started"](https://docs.microsoft.com/en-us/appcenter/distribution/codepush/index) instructions for setting up your CodePush account, you can start CodePush-ifying your React Native app by running the following command from within your app's root directory:
+Once you've set up your CodePush server, you can start CodePush-ifying your React Native app by running the following command from within your app's root directory:
 
 ```shell
 yarn add @code-push-next/react-native-code-push
@@ -277,43 +276,11 @@ This is not necessarily the case for `updateDialog`, since it won't force the us
 
 ## Releasing Updates
 
-Once your app is configured and distributed to your users, and you have made some JS or asset changes, it's time to release them. The recommended way to release them is using the `release-react` command in the App Center CLI, which will bundle your JavaScript files, asset files, and release the update to the CodePush server.
-
-_NOTE: Before you can start releasing updates, please log into App Center by running the `appcenter login` command._
-
-In its most basic form, this command only requires one parameter: your owner name + "/" + app name.
-
-```shell
-appcenter codepush release-react -a <ownerName>/<appName>
-
-appcenter codepush release-react -a <ownerName>/MyApp-iOS
-appcenter codepush release-react -a <ownerName>/MyApp-Android
-```
-
-The `release-react` command enables such a simple workflow because it provides many sensible defaults (like generating a release bundle, assuming your app's entry file on iOS is either `index.ios.js` or `index.js`). However, all of these defaults can be customized to allow incremental flexibility as necessary, which makes it a good fit for most scenarios.
-
-```shell
-# Release a mandatory update with a changelog
-appcenter codepush release-react -a <ownerName>/MyApp-iOS  -m --description "Modified the header color"
-
-# Release an update for an app that uses a non-standard entry file name, and also capture
-# the sourcemap file generated by react-native bundle
-appcenter codepush release-react -a <ownerName>/MyApp-iOS --entry-file MyApp.js --sourcemap-output ../maps/MyApp.map
-
-# Release a dev Android build to just 1/4 of your end users
-appcenter codepush release-react -a <ownerName>/MyApp-Android  --rollout 25 --development true
-
-# Release an update that targets users running any 1.1.* binary, as opposed to
-# limiting the update to exact version name in the build.gradle file
-appcenter codepush release-react -a <ownerName>/MyApp-Android  --target-binary-version "~1.1.0"
-
-```
+Once your app is configured and distributed to your users, and you have made some JS or asset changes, it's time to release them. Use your CodePush-compatible server's CLI to bundle your JavaScript files, asset files, and release the update to the server.
 
 The CodePush client supports differential updates, so even though you are releasing your JS bundle and assets on every update, your end users will only actually download the files they need. The service handles this automatically so that you can focus on creating awesome apps and we can worry about optimizing end user downloads.
 
-For more details about how the `release-react` command works, as well as the various parameters it exposes, refer to the [CLI docs](https://github.com/microsoft/code-push/tree/v3.0.1/cli#releasing-updates-react-native). Additionally, if you would prefer to handle running the `react-native bundle` command yourself, and therefore, want an even more flexible solution than `release-react`, refer to the [`release` command](https://github.com/microsoft/code-push/tree/v3.0.1/cli#releasing-updates-general) for more details.
-
-If you run into any issues, or have any questions/comments/feedback, you can ping us within the [#code-push](https://discord.gg/0ZcbPKXt5bWxFdFu) channel on Reactiflux, [e-mail us](mailto:codepushfeed@microsoft.com) and/or check out the [troubleshooting](#debugging--troubleshooting) details below.
+If you run into any issues, or have any questions/comments/feedback, you can ping us within the [#code-push](https://discord.gg/0ZcbPKXt5bWxFdFu) channel on Reactiflux and/or check out the [troubleshooting](#debugging--troubleshooting) details below.
 
 _NOTE: CodePush updates should be tested in modes other than Debug mode. In Debug mode, React Native app always downloads JS bundle generated by packager, so JS bundle downloaded by CodePush does not apply._
 
@@ -321,19 +288,19 @@ _NOTE: CodePush updates should be tested in modes other than Debug mode. In Debu
 
 In our [getting started](#getting-started) docs, we illustrated how to configure the CodePush plugin using a specific deployment key. However, in order to effectively test your releases, it is critical that you leverage the `Staging` and `Production` deployments that are auto-generated when you first created your CodePush app (or any custom deployments you may have created). This way, you never release an update to your end users that you haven't been able to validate yourself.
 
-_NOTE: Our client-side rollback feature can help unblock users after installing a release that resulted in a crash, and server-side rollbacks (i.e. `appcenter codepush rollback`) allow you to prevent additional users from installing a bad release once it's been identified. However, it's obviously better if you can prevent an erroneous update from being broadly released in the first place._
+_NOTE: Our client-side rollback feature can help unblock users after installing a release that resulted in a crash, and server-side rollbacks allow you to prevent additional users from installing a bad release once it's been identified. However, it's obviously better if you can prevent an erroneous update from being broadly released in the first place._
 
 Taking advantage of the `Staging` and `Production` deployments allows you to achieve a workflow like the following (feel free to customize!):
 
-1. Release a CodePush update to your `Staging` deployment using the `appcenter codepush release-react` command (or `appcenter codepush release` if you need more control)
+1. Release a CodePush update to your `Staging` deployment
 
 2. Run your staging/beta build of your app, sync the update from the server, and verify it works as expected
 
-3. Promote the tested release from `Staging` to `Production` using the `appcenter codepush promote` command
+3. Promote the tested release from `Staging` to `Production`
 
 4. Run your production/release build of your app, sync the update from the server and verify it works as expected
 
-_NOTE: If you want to take a more cautious approach, you can even choose to perform a "staged rollout" as part of #3, which allows you to mitigate additional potential risk with the update (like did your testing in #2 touch all possible devices/conditions?) by only making the production update available to a percentage of your users (for example `appcenter codepush promote -a <ownerName>/<appName> -s Staging -d Production -r 20`). Then, after waiting for a reasonable amount of time to see if any crash reports or customer feedback comes in, you can expand it to your entire audience by running `appcenter codepush patch -a <ownerName>/<appName> Production -r 100`._
+_NOTE: If you want to take a more cautious approach, you can even choose to perform a "staged rollout" as part of #3, which allows you to mitigate additional potential risk with the update (like did your testing in #2 touch all possible devices/conditions?) by only making the production update available to a percentage of your users. Then, after waiting for a reasonable amount of time to see if any crash reports or customer feedback comes in, you can expand it to your entire audience._
 
 You'll notice that the above steps refer to a "staging build" and "production build" of your app. If your build process already generates distinct binaries per "environment", then you don't need to read any further, since swapping out CodePush deployment keys is just like handling environment-specific config for any other service your app uses (like Facebook). However, if you're looking for examples (**including demo projects**) on how to setup your build process to accommodate this, then refer to the following sections, depending on the platform(s) your app is targeting:
 
@@ -363,11 +330,9 @@ _NOTE: If needed, you could also implement a hybrid solution that allowed your e
 Since we recommend using the `Staging` deployment for pre-release testing of your updates (as explained in the previous section), it doesn't neccessarily make sense to use it for performing A/B tests on your users, as opposed to allowing early-access (as explained in option #1 above). Therefore, we recommend making full use of custom app deployments, so that you can segment your users however makes sense for your needs. For example, you could create long-term or even one-off deployments, release a variant of your app to it, and then place certain users into it in order to see how they engage.
 
 ```javascript
-// #1) Create your new deployment to hold releases of a specific app variant
-appcenter codepush deployment add -a <ownerName>/<appName> test-variant-one
+// #1) Create a new deployment to hold releases of a specific app variant via your CodePush server CLI
 
 // #2) Target any new releases at that custom deployment
-appcenter codepush release-react -a <ownerName>/<appName> -d test-variant-one
 ```
 
 _NOTE: The total user count that is reported in your deployment's "Install Metrics" will take into account users that have "switched" from one deployment to another. For example, if your `Production` deployment currently reports having 1 total user, but you dynamically switch that user to `Staging`, then the `Production` deployment would report 0 total users, while `Staging` would report 1 (the user that just switched). This behavior allows you to accurately track your release adoption, even in the event of using a runtime-based deployment redirection solution._
@@ -397,7 +362,7 @@ _Note: If you've developed a React Native app using CodePush, that is also open-
 
 ### Debugging / Troubleshooting
 
-The `sync` method includes a lot of diagnostic logging out-of-the-box, so if you're encountering an issue when using it, the best thing to try first is examining the output logs of your app. This will tell you whether the app is configured correctly (like can the plugin find your deployment key?), if the app is able to reach the server, if an available update is being discovered, if the update is being successfully downloaded/installed, etc. We want to continue improving the logging to be as intuitive/comprehensive as possible, so please [let us know](mailto:codepushfeed@microsoft.com) if you find it to be confusing or missing anything.
+The `sync` method includes a lot of diagnostic logging out-of-the-box, so if you're encountering an issue when using it, the best thing to try first is examining the output logs of your app. This will tell you whether the app is configured correctly (like can the plugin find your deployment key?), if the app is able to reach the server, if an available update is being discovered, if the update is being successfully downloaded/installed, etc. We want to continue improving the logging to be as intuitive/comprehensive as possible, so please [let us know](https://github.com/codemagic-ci-cd/react-native-code-push/issues) if you find it to be confusing or missing anything.
 
 The simplest way to view these logs is to add the flag `--debug` for each command. This will output a log stream that is filtered to just CodePush messages. This makes it easy to identify issues, without needing to use a platform-specific tool, or wade through a potentially high volume of logs.
 
@@ -421,7 +386,7 @@ Now you'll be able to see CodePush logs in either debug or release mode, on both
 | ---------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Compilation Error                                                                        | Double-check that your version of React Native is [compatible](#supported-react-native-platforms) with the CodePush version you are using.                                                                                                                                                                                                                                                                                                                  |
 | Network timeout / hang when calling `sync` or `checkForUpdate` in the iOS Simulator      | Try resetting the simulator by selecting the `Simulator -> Reset Content and Settings..` menu item, and then re-running your app.                                                                                                                                                                                                                                                                                                                           |
-| Server responds with a `404` when calling `sync` or `checkForUpdate`                     | Double-check that the deployment key you added to your `Info.plist` (iOS), `build.gradle` (Android) or that you're passing to `sync`/`checkForUpdate`, is in fact correct. You can run `appcenter codepush deployment list <ownerName>/<appName> --displayKeys` to view the correct keys for your app deployments.                                                                                                                                          |
+| Server responds with a `404` when calling `sync` or `checkForUpdate`                     | Double-check that the deployment key you added to your `Info.plist` (iOS), `build.gradle` (Android) or that you're passing to `sync`/`checkForUpdate`, is in fact correct. You can verify the correct keys for your app deployments using your CodePush CLI.                                                                                                                                                                                    |
 | Update not being discovered                                                              | Double-check that the version of your running app (like `1.0.0`) matches the version you specified when releasing the update to CodePush. Additionally, make sure that you are releasing to the same deployment that your app is configured to sync with.                                                                                                                                                                                                   |
 | Update not being displayed after restart                                                 | If you're not calling `sync` on app start (like within `componentDidMount` of your root component), then you need to explicitly call `notifyApplicationReady` on app start, otherwise, the plugin will think your update failed and roll it back.                                                                                                                                                                                                           |
 | I've released an update for iOS but my Android app also shows an update and it breaks it | Be sure you have different deployment keys for each platform in order to receive updates correctly                                                                                                                                                                                                                                                                                                                                                          |
@@ -432,7 +397,6 @@ Now you'll be able to see CodePush logs in either debug or release mode, on both
 
 In addition to being able to use the CodePush CLI to "manually" release updates, we believe that it's important to create a repeatable and sustainable solution for contiously delivering updates to your app. That way, it's simple enough for you and/or your team to create and maintain the rhythm of performing agile deployments. In order to assist with setting up a CodePush-based CD pipeline, refer to the following integrations with various CI servers:
 
-- [Visual Studio Team Services](https://marketplace.visualstudio.com/items?itemName=ms-vsclient.code-push) - _NOTE: VSTS also has extensions for publishing to [HockeyApp](https://marketplace.visualstudio.com/items?itemName=ms.hockeyapp) and the [Google Play](https://github.com/microsoft/google-play-vsts-extension) store, so it provides a pretty great mobile CD solution in general._
 - [Travis CI](https://github.com/mondora/code-push-travis-cli)
 
 Additionally, if you'd like more details of what a complete mobile CI/CD workflow can look like, which includes CodePush, check out this [excellent article](https://medium.com/zeemee-engineering/zeemee-engineering-and-the-quest-for-the-holy-mobile-dev-grail-1310be4953d1) by the [ZeeMee engineering team](https://www.zeemee.com/).
@@ -441,6 +405,3 @@ Additionally, if you'd like more details of what a complete mobile CI/CD workflo
 
 This module ships its `*.d.ts` file as part of its NPM package, which allows you to simply `import` it, and receive intellisense in supporting editors (like Visual Studio Code), as well as compile-time type checking if you're using TypeScript. For the most part, this behavior should just work out of the box, however, if you've specified `es6` as the value for either the `target` or `module` [compiler option](http://www.typescriptlang.org/docs/handbook/compiler-options.html) in your [`tsconfig.json`](http://www.typescriptlang.org/docs/handbook/tsconfig-json.html) file, then just make sure that you also set the `moduleResolution` option to `node`. This ensures that the TypeScript compiler will look within the `node_modules` for the type definitions of imported modules. Otherwise, you'll get an error like the following when trying to import the `react-native-code-push` module: `error TS2307: Cannot find module 'react-native-code-push'`.
 
----
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
