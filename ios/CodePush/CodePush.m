@@ -18,6 +18,7 @@
 #import "CodePush.h"
 
 @interface CodePush () <RCTBridgeModule, RCTFrameUpdateObserver>
++ (BOOL)rollbackFailedPendingUpdate;
 @end
 
 @implementation CodePush {
@@ -183,6 +184,13 @@ static NSString *const LatestRollbackCountKey = @"count";
     NSString *packageAppVersion = [currentPackageMetadata objectForKey:AppVersionKey];
 
     if ([[CodePushUpdateUtils modifiedDateStringOfFileAtURL:binaryBundleURL] isEqualToString:packageDate] && ([CodePush isUsingTestConfiguration] ||[binaryAppVersion isEqualToString:packageAppVersion])) {
+        if ([self rollbackFailedPendingUpdate]) {
+            return [self bundleURLForResource:resourceName
+                                withExtension:resourceExtension
+                                 subdirectory:resourceSubdirectory
+                                       bundle:resourceBundle];
+        }
+
         // Return package file because it is newer than the app store binary's JS bundle
         NSURL *packageUrl = [[NSURL alloc] initFileURLWithPath:packageFile];
         CPLog(logMessageFormat, packageUrl);
@@ -415,6 +423,40 @@ static NSString *const LatestRollbackCountKey = @"count";
                           isLoading:YES];
         }
     }
+}
+
+/*
+ * Rolls back a pending update that already failed a previous launch before returning
+ * its bundle URL to React Native.
+ */
++ (BOOL)rollbackFailedPendingUpdate
+{
+    NSUserDefaults *preferences = [NSUserDefaults standardUserDefaults];
+    NSDictionary *pendingUpdate = [preferences objectForKey:PendingUpdateKey];
+    if (!pendingUpdate || ![pendingUpdate[PendingUpdateIsLoadingKey] boolValue]) {
+        return NO;
+    }
+
+    CPLog(@"Update did not finish loading the last time, rolling back to a previous version.");
+    needToReportRollback = YES;
+
+    NSError *error;
+    NSDictionary *failedPackage = [CodePushPackage getCurrentPackage:&error];
+    if (!failedPackage) {
+        if (error) {
+            CPLog(@"Error getting current update metadata during rollback: %@", error);
+        } else {
+            CPLog(@"Attempted to perform a rollback when there is no current update");
+        }
+    } else if (![self isFailedHash:[failedPackage objectForKey:PackageHashKey]]) {
+        NSArray *failedUpdates = [preferences objectForKey:FailedUpdatesKey];
+        failedUpdates = failedUpdates ? [failedUpdates arrayByAddingObject:failedPackage] : @[failedPackage];
+        [preferences setObject:failedUpdates forKey:FailedUpdatesKey];
+    }
+
+    [CodePushPackage rollbackPackage];
+    [self removePendingUpdate];
+    return YES;
 }
 
 /*
