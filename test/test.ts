@@ -285,7 +285,7 @@ class RNIOS extends Platform.IOS implements RNPlatform {
         return this.getEmulatorManager().getTargetEmulator()
             .then((targetEmulator: string) => {
                 return TestUtil.getProcessOutput("xcodebuild -workspace " + path.join(iOSProject, TestConfig.TestAppName) + ".xcworkspace -scheme " + TestConfig.TestAppName +
-                    " -configuration Release -destination \"platform=iOS Simulator,id=" + targetEmulator + "\" -derivedDataPath build EXCLUDED_ARCHS=arm64", { cwd: iOSProject, timeout: 30 * 60 * 1000, maxBuffer: 1024 * 1024 * 5000, noLogStdOut: true });
+                    " -configuration Release -destination \"platform=iOS Simulator,id=" + targetEmulator + "\" -derivedDataPath build", { cwd: iOSProject, timeout: 30 * 60 * 1000, maxBuffer: 1024 * 1024 * 5000, noLogStdOut: true });
             })
             .then<void>(
                 () => { return null; },
@@ -367,7 +367,8 @@ class RNProjectManager extends ProjectManager {
         mkdirp.sync(projectDirectory);
 
         if (TestConfig.isExpoApp) {
-            return TestUtil.getProcessOutput(`npx create-expo-app@latest ${appName} --template blank@sdk-55`, { cwd: projectDirectory, timeout: 30 * 60 * 1000 })
+            const expoSdkVersion = process.env.EXPO_SDK || "56";
+            return TestUtil.getProcessOutput(`npx create-expo-app@latest ${appName} --template blank@sdk-${expoSdkVersion}`, { cwd: projectDirectory, timeout: 30 * 60 * 1000 })
                 .then((e) => { console.log(`"npx expo init ${appName}" success. cwd=${projectDirectory}`); return e; })
                 .then(this.copyTemplate.bind(this, templatePath, projectDirectory))
                 .then<void>(TestUtil.getProcessOutput.bind(undefined, TestConfig.thisPluginInstallString, { cwd: path.join(projectDirectory, TestConfig.TestAppName) }))
@@ -380,7 +381,8 @@ class RNProjectManager extends ProjectManager {
                 })
                 .then(() => { return null; });
         } else {
-            return TestUtil.getProcessOutput("npx @react-native-community/cli init " + appName + " --version 0.82.1 --install-pods", { cwd: projectDirectory, timeout: 30 * 60 * 1000 })
+            const rnVersion = process.env.RN_VERSION || "0.86.0";
+            return TestUtil.getProcessOutput(`npx @react-native-community/cli init ${appName} --version ${rnVersion} --install-pods`, { cwd: projectDirectory, timeout: 30 * 60 * 1000 })
                 .then((e) => { console.log(`"npx @react-native-community/cli init ${appName}" success. cwd=${projectDirectory}`); return e; })
                 .then(this.copyTemplate.bind(this, templatePath, projectDirectory))
                 .then<void>(TestUtil.getProcessOutput.bind(undefined, TestConfig.thisPluginInstallString, { cwd: path.join(projectDirectory, TestConfig.TestAppName) }))

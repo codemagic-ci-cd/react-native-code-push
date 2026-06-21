@@ -50,7 +50,7 @@
     "xcode": "3.0.1"
   },
   "devDependencies": {
-    "react-native": "0.82.1",
+    "react-native": "0.86.0",
     "@types/assert": "^1.5.2",
     "@types/mkdirp": "^1.0.1",
     "@types/mocha": "^9.0.0",
