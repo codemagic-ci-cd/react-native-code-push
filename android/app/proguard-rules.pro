@@ -21,8 +21,11 @@
     private final ** mBundleLoader;
 }
 
+# The delegate field was renamed from "mReactHostDelegate" (Java ReactHostImpl) to
+# "reactHostDelegate" (Kotlin ReactHostImpl) in newer React Native versions. Keep both.
 -keepclassmembers class com.facebook.react.runtime.ReactHostImpl {
-    private final ** mReactHostDelegate;
+    ** mReactHostDelegate;
+    ** reactHostDelegate;
 }
 
 -keep interface com.facebook.react.runtime.ReactHostDelegate { *; }

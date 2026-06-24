@@ -767,15 +767,40 @@ public class CodePushNativeModule extends BaseJavaModule {
 
     public ReactHostDelegate getReactHostDelegate(ReactHostImpl reactHostImpl) {
         try {
-            Class<?> clazz = reactHostImpl.getClass();
-            Field field = clazz.getDeclaredField("reactHostDelegate");
+            Field field = findReactHostDelegateField(reactHostImpl.getClass());
+            if (field == null) {
+                CodePushUtils.log("Field 'reactHostDelegate' NOT FOUND on " + reactHostImpl.getClass().getName() + ". CodePush may not support this version of React Native.");
+                return null;
+            }
             field.setAccessible(true);
 
             // Get the value of the field for the provided instance
             return (ReactHostDelegate) field.get(reactHostImpl);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    // React Native renamed this field when ReactHostImpl was converted from Java to Kotlin:
+    // older (Java) versions expose it as "mReactHostDelegate", newer (Kotlin) versions as
+    // "reactHostDelegate". Try both, walking the class hierarchy in case ReactHostImpl is subclassed.
+    private Field findReactHostDelegateField(Class<?> hostClass) {
+        Class<?> currentClass = hostClass;
+        while (currentClass != null) {
+            try {
+                return currentClass.getDeclaredField("reactHostDelegate");
+            } catch (NoSuchFieldException ignored) {
+                // Continue searching the class hierarchy and alternate field names.
+            }
+
+            try {
+                return currentClass.getDeclaredField("mReactHostDelegate");
+            } catch (NoSuchFieldException ignored) {
+                currentClass = currentClass.getSuperclass();
+            }
+        }
+
+        return null;
     }
 }
