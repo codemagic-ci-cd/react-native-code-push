@@ -25,6 +25,7 @@ DerivedData
 #
 node_modules/
 npm-debug.log
+AGENTS.md
 
 # Don't publish example apps
 Examples/
@@ -100,4 +101,3 @@ packages/
 .git/
 
 .watchmanconfig
-
