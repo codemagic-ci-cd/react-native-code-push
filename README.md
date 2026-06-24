@@ -41,7 +41,7 @@ _Note: Any product changes which touch native code (e.g. modifying your `AppDele
 
 ## Supported React Native platforms
 
-- iOS (7+)
+- iOS (15.5+)
 - Android (4.1+) on TLS 1.2 compatible devices
 - Windows (UWP) - Not actively tested
 
