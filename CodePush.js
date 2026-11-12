@@ -5,6 +5,14 @@ import { AppState, Platform } from "react-native";
 import log from "./logging";
 import hoistStatics from 'hoist-non-react-statics';
 
+if (typeof __DEV__ !== "undefined" && __DEV__) {
+  console.warn(
+    "[CodePush] @code-push-next/react-native-code-push is deprecated in favor of Codemagic Patch " +
+    "(@codemagic/react-native-patch). This package is frozen (no new features, no new React Native " +
+    "version support). https://patch.codemagic.io/docs/migration/migrating-from-codepush"
+  );
+}
+
 let NativeCodePush = require("react-native").NativeModules.CodePush;
 const PackageMixins = require("./package-mixins")(NativeCodePush);
 
