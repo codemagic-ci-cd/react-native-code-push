@@ -1,6 +1,6 @@
 {
   "name": "@code-push-next/react-native-code-push",
-  "version": "10.4.3",
+  "version": "10.4.4",
   "description": "Deprecated in favor of Codemagic Patch (@codemagic/react-native-patch), which includes a web dashboard, native fingerprinting and support for new React Native versions. https://patch.codemagic.io/docs/migration/migrating-from-codepush",
   "main": "CodePush.js",
   "typings": "typings/react-native-code-push.d.ts",
