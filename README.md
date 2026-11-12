@@ -1,6 +1,6 @@
 > **DEPRECATED:** This package is frozen. No new features and no React Native version support will ship here. Last targeted support is in the React Native 0.82 era (`v10.4+`).
 >
-> Migrate to [Codemagic Patch](https://patch.codemagic.io/docs/migration/migrating-from-codepush) (`@codemagic/react-native-patch`) instead, our improved over-the-air update tool.
+> Use [Codemagic Patch](https://patch.codemagic.io/docs/migration/migrating-from-codepush) (`@codemagic/react-native-patch`) instead, which includes a web dashboard, native fingerprinting and support for new React Native versions.
 >
 > Migration guide: https://patch.codemagic.io/docs/migration/migrating-from-codepush
 

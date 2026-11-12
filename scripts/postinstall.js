@@ -7,9 +7,9 @@ const migrateUrl =
 console.warn(
   [
     "",
-    "[DEPRECATED] @code-push-next/react-native-code-push. Use",
-    "Codemagic Patch (@codemagic/react-native-patch) instead. This package is frozen:",
-    "no new features, no React Native version support.",
+    "[DEPRECATED] @code-push-next/react-native-code-push is deprecated in favor of",
+    "Codemagic Patch (@codemagic/react-native-patch), which includes a web dashboard,",
+    "native fingerprinting and support for new React Native versions.",
     migrateUrl,
     "",
   ].join("\n")

@@ -8,8 +8,9 @@ import hoistStatics from 'hoist-non-react-statics';
 if (typeof __DEV__ !== "undefined" && __DEV__) {
   console.warn(
     "[CodePush] @code-push-next/react-native-code-push is deprecated in favor of Codemagic Patch " +
-    "(@codemagic/react-native-patch). This package is frozen (no new features, no new React Native " +
-    "version support). https://patch.codemagic.io/docs/migration/migrating-from-codepush"
+    "(@codemagic/react-native-patch), which includes a web dashboard, native fingerprinting and " +
+    "support for new React Native versions. " +
+    "https://patch.codemagic.io/docs/migration/migrating-from-codepush"
   );
 }
 
