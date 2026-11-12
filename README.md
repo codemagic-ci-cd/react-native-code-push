@@ -1,4 +1,8 @@
-> **From the maintainers:** We build [Codemagic Patch](https://github.com/codemagic-ci-cd/codemagic-patch), a self-hosted OTA update service for React Native — server, client SDK, CLI, and dashboard — where our new development happens, and we recommend it for new projects. If you want to migrate from self-hosted CodePush, see the [migration guide](https://github.com/codemagic-ci-cd/codemagic-patch/blob/main/docs/migrate-from-codepush.md).
+> **DEPRECATED:** This package is frozen. No new features and no React Native version support will ship here. Last targeted support is in the React Native 0.82 era (`v10.4+`).
+>
+> Use [Codemagic Patch](https://patch.codemagic.io/docs/migration/migrating-from-codepush) (`@codemagic/react-native-patch`) instead, which includes a web dashboard, native fingerprinting and support for new React Native versions.
+>
+> Migration guide: https://patch.codemagic.io/docs/migration/migrating-from-codepush
 
 # React Native Module for CodePush
 
